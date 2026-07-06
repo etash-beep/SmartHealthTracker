@@ -1,3 +1,5 @@
+import matplotlib.pyplot as plt
+
 def printHeading():
     print("="*40)
     print(" SMART HEALTH TRACKER ".center(40))
@@ -35,3 +37,16 @@ def calculateMaintenanceCalories(weight,height,age,gender,activity_level):
 
     factor=activity_factors[activity_level]
     return round(bmr*factor)
+
+def calculateTargetCalories(maintenance,goal):
+    
+    if goal=="Lean Bulk":
+        return maintenance+250
+    elif goal=="Maintain":
+        return maintenance
+    elif goal=="Fat Loss":
+        return maintenance-500
+    
+    return maintenance
+
+

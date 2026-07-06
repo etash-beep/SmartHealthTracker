@@ -1,6 +1,8 @@
 from user import registerUser,checkUserExists,getUserName
 from health import addDailyHealthLog
 from utils import printHeading
+from graphs import showGraphMenu
+from dashboard import viewDashboard
 
 def main():
     if not checkUserExists():
@@ -14,7 +16,11 @@ def main():
     
         if option==1:
             addDailyHealthLog()
-            
+        elif option==2:
+            viewDashboard()
+        elif option==3:
+            showGraphMenu()
+        
         elif option==7:
             print("\nThank you for using Smart Health Tracker.")
             break

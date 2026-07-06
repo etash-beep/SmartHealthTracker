@@ -13,7 +13,7 @@ def addDailyHealthLog():
     water=float(input("Enter the amount of water consumed today:"))
     sleep=int(input("How many hours did you slept at night:"))
     workout=int(input("How many minutes did you workout today:"))
-    steps=int(input("How many steps did you waled today:"))
+    steps=int(input("How many steps did you walked today:"))
 
     health_data={
         "Date":date,
