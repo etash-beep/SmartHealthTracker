@@ -15,8 +15,8 @@ def weeklyReport():
     
     health_df=pd.read_csv(file_path)
     health_df["Date"] = pd.to_datetime(health_df["Date"]).dt.date
-    today=datetime.now().date()
-    last_week=today-timedelta(days=6)
+    latest_date = health_df["Date"].max()
+    last_week = latest_date - timedelta(days=6)
     weekly_df = health_df[health_df["Date"] >= last_week]
 
     if weekly_df.empty:
