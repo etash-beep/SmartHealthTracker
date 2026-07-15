@@ -7,7 +7,6 @@ from reports import weeklyReport
 from health_score import showHealthScore
 from predictor import predictWeight
 import pandas as pd
-import os
 
 def main():
     if not checkUserExists():
@@ -31,8 +30,6 @@ def main():
             healthPrediction()
         elif option==6:
             weeklyReport()
-        elif option==7:
-            resetUser()
         elif option==8:
             print("\nThank you for using Smart Health Tracker.")
             break
@@ -45,9 +42,6 @@ def healthPrediction():
     latest_log=health_df.iloc[-1]
     calories=latest_log["Calories"]
     protein = latest_log["Protein_g"]
-    carbs = latest_log["Carbohydrates_g"]
-    fats = latest_log["Fats_g"]
-    fiber = latest_log["Fiber_g"]
     water = latest_log["Water_L"]
     sleep = latest_log["Sleep_hr"]
     workout = latest_log["Workout_Min"]
@@ -55,15 +49,12 @@ def healthPrediction():
     current_weight=latest_log["Weight_kg"]
     
     predicted_weight = predictWeight(
-    calories,
-    protein,
-    carbs,
-    fats,
-    fiber,
-    water,
-    sleep,
-    workout,
-    steps
+        calories,
+        protein,
+        water,
+        sleep,
+        workout,
+        steps
     )
 
     print("\n🤖 AI HEALTH PREDICTION")
@@ -73,9 +64,6 @@ def healthPrediction():
 
     print(f"{'Calories':<20}: {calories} kcal")
     print(f"{'Protein':<20}: {protein} g")
-    print(f"{'Carbohydrates':<20}: {carbs} g")
-    print(f"{'Fats':<20}: {fats} g")
-    print(f"{'Fiber':<20}: {fiber} g")
     print(f"{'Water':<20}: {water} L")
     print(f"{'Sleep':<20}: {sleep} hr")
     print(f"{'Workout':<20}: {workout} min")
@@ -100,22 +88,6 @@ def showMenu(name):
     print("7. Reset User")
     print("8. Exit")
 
-
-def resetUser():
-
-    choice=input("Press 7 again to reset the user:")
-    if choice ==7:
-        if os.path.isfile("data/user_data.csv"):
-            os.remove("data/user_data.csv")
-
-        if os.path.isfile("data/health_logs.csv"):
-            os.remove("data/health_logs.csv")
-
-        print("✅ User removed successfully")
-
-        registerUser()
-    else:
-        return
 
 if __name__=="__main__":
     main()
