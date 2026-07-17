@@ -6,6 +6,7 @@ from dashboard import viewDashboard
 from reports import weeklyReport
 from health_score import showHealthScore
 from predictor import predictWeight
+from ai_coach import healthCoach
 import pandas as pd
 import os
 
@@ -53,6 +54,8 @@ def healthPrediction():
     workout = latest_log["Workout_Min"]
     steps = latest_log["Steps"]
     current_weight=latest_log["Weight_kg"]
+    user_goal=pd.read_csv("data/user_data.csv")
+
     
     predicted_weight = predictWeight(
     calories,
@@ -65,7 +68,38 @@ def healthPrediction():
     workout,
     steps
     )
+    prompt = f"""
+    You are an expert health and fitness coach.
 
+    The user's goal is {user_goal["Fitness Goal"].iloc[0]}.
+
+    Health Data:
+
+    Current Weight: {current_weight} kg
+    Predicted Weight: {predicted_weight:.2f} kg
+
+    Calories: {calories}
+    Protein: {protein} g
+    Carbohydrates: {carbs} g
+    Fats: {fats} g
+    Fiber: {fiber} g    
+    Water: {water} L
+    Sleep: {sleep} hr
+    Workout: {workout} min
+    Steps: {steps}
+
+    Provide:
+
+    1. Overall Health Summary
+    2. Strengths
+    3. Areas to Improve
+    4. Diet Advice
+    5. Workout Advice
+    6. One Motivational Tip
+
+    Keep the response under 180 words.
+    """
+    advice = healthCoach(prompt)
     print("\n🤖 AI HEALTH PREDICTION")
     print("-" * 40)
 
@@ -85,6 +119,9 @@ def healthPrediction():
     print(f"{'Predicted Weight':<20}: {predicted_weight:.2f} kg")
     print(f"{'Expected Change':<20}: {predicted_weight-current_weight:+.2f} kg")
 
+    print("\n🤖 GEMINI HEALTH COACH")
+    print("-" * 40)
+    print(advice)
     
 def showMenu(name):
 
